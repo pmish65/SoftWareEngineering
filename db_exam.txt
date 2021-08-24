@@ -1,0 +1,211 @@
+
+Q1------------------------------------
+SELECT first_name,last_name,
+hire_date,salary,
+Floor(DATEDIFF(now(),hire_date)/365)
+as EXPERIENCE
+from departments d join 
+employees e on d.manager_id=e.employee_id
+where DATEDIFF(now(),hire_date)/365>15;
+Q2--------------------------------------------
+SELECT manager_id,
+		MIN(salary)
+from employees
+where manager_id is NOT NULL
+group by manager_id
+having min(salary)>6000
+order by salary desc;
+Q3---------------------------------------------
+1
+select  employee_id,
+		concat(first_name,' ',last_name) as name,
+	   salary
+from emp_details_view
+where city="London";
+2
+select last_name
+from employees
+where last_name like "s%"
+3
+select *
+from employees
+where DATE_FORMAT(hire_date,"%a")="Mon" AND DATE_FORMAT(hire_date,"%b")="Oct"
+4
+select upper(concat(first_name,' ',last_name)) as full_name,
+	   upper(city) as city
+from emp_details_view
+5
+select d.department_name,
+		max(salary)
+from employees e 
+join departments d on d.department_id=e.department_id
+group by e.department_id;
+Q4--------------------------------------------------------
+create table no_duplicate like employees
+Insert into no_duplicate 
+select * from employees
+group first_name;
+Q5-----------------------------------------
+CREATE INDEX month_of_hire_date ON employees (hire_date(month));
+Q6--------------------------------------------
+create view emp_view as 
+select EmpNo,Empname,Empsalary
+from employees;
+1.
+update employees
+set salary=1500
+where empId=105;
+2.
+delete from employees
+where employee_id=106;
+3
+update employees
+set department_id=100
+where employee_id=108;
+Q7---------------------------------------------------------------
+select j.job_title,
+	   d.department_name,
+	   concat(e.first_name,' ',e.last_name) as full_name,
+	   jh.start_date
+	   from employees e
+	   join departments d on d.department_id=e.department_id
+	   join jobs j on j.job_id=e.job_id
+	   join job_history jh on jh.job_id=e.job_id
+	   where start_date>='1993-01-01' AND start_date<='1997-08-31'; 
+Q8-----------------------------------------------------------------
+select concat(first_name,' ',last_name) as full_name,
+	 j.job_title,
+	 t.*
+from employees e
+join 
+(
+	select max(start_date),
+	max(end_date),
+	employee_id
+	from job_history
+	group by employee_id)t on e.employee_id=t.employee_id
+	join jobs j on j.job_id=e.job_id
+	where e.commission_pct=0;
+Q9--------------------------------------------------------------------
+select e.first_name as employee_name,
+	   m.first_name as manager
+	   from employees e
+	   left join employees m on m.employee_id=e.manager_id;
+Q10--------------------------------------------------------------------
+select first_name,
+	   city,
+	   state_province,
+	   department_name
+	   from emp_details_view
+	   where first_name like "%z%";
+Q11-------------------------------------------------------------
+
+select e.first_name,
+       d.department_name,
+	   d.department_id
+	   from employees e
+	   right join departments d on d.department_id=e.department_id;
+Q12------------------------------------------------------------------
+select e.first_name,
+	e.last_name
+	from employees e
+	join employees s
+	on e.salary<s.salary AND s.employee_id=182
+Q13----------------------------------------------------------------
+select e.first_name as employee_name,
+	   m.first_name as manager
+	   from employees e
+	   left join employees m on m.employee_id=e.manager_id;
+q14-------------------------------------------------------------------
+1.
+db.employees.find(.sort({age:1}))
+2.
+db.employees.find({gender:"Male"})
+3.
+db.employees.find({age:57})
+4.
+db.employees.find(
+				{
+				$or :
+						[
+						{commission_pct : 0},
+						{salary : {$gt : 12000}}
+						]
+				}
+		).sort({department_id : 1}).sort({salary : -1}).pretty();
+
+5.
+db.employees.update(
+	{
+		'firstName':"Steve",'last_name':'Rogers'
+	},{
+	$set:{'employee_id':210}
+	},
+	{
+		upset:true
+	}
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
